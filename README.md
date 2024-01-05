@@ -1,5 +1,5 @@
-# Stengine
+# Fluid Sim
 
 ```bash
-$ git clone https://github.com/sten-code/Stengine.git --recursive
+$ git clone https://github.com/sten-code/Fluid-Sim.git
 ```
