@@ -53,7 +53,7 @@ glm::vec4 MapSpeedToColor(const glm::vec2& velocity, float maxSpeed)
 
 ParticleFluid::ParticleFluid()
 {
-	GenerateParticleGrid(80, 60, 10.0f);
+	GenerateParticleGrid(80, 80, 10.0f);
 }
 
 void ParticleFluid::GenerateParticleGrid(int width, int height, float spacing)

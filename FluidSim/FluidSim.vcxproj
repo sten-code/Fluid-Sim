@@ -91,8 +91,13 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\Stengine\vendor\VulkanSDK\Lib\shaderc_sharedd.lib;..\Stengine\vendor\VulkanSDK\Lib\spirv-cross-cored.lib;..\Stengine\vendor\VulkanSDK\Lib\spirv-cross-glsld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\Stengine\vendor\VulkanSDK\lib\shaderc_sharedd.lib;..\Stengine\vendor\VulkanSDK\lib\spirv-cross-cored.lib;..\Stengine\vendor\VulkanSDK\lib\spirv-cross-glsld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)/$(ProjectName)/assets" "$(SolutionDir)/bin/Debug-windows-x86_64/$(ProjectName)/assets" /E /Y /I
+copy "$(SolutionDir)Stengine\vendor\VulkanSDK\bin\shaderc_sharedd.dll" "$(SolutionDir)$(ProjectName)"
+copy "$(SolutionDir)Stengine\vendor\VulkanSDK\bin\shaderc_sharedd.dll" "$(SolutionDir)\bin\Debug-windows-x86_64\$(ProjectName)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -114,8 +119,11 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>C:\VulkanSDK\1.2.189.0\Lib\shaderc_shared.lib;C:\VulkanSDK\1.2.189.0\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.2.189.0\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\VulkanSDK\1.2.189.0\lib\shaderc_shared.lib;C:\VulkanSDK\1.2.189.0\lib\spirv-cross-core.lib;C:\VulkanSDK\1.2.189.0\lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)/$(ProjectName)/assets" "$(SolutionDir)/bin/Release-windows-x86_64/$(ProjectName)/assets" /E /Y /I</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
@@ -137,8 +145,11 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>C:\VulkanSDK\1.2.189.0\Lib\shaderc_shared.lib;C:\VulkanSDK\1.2.189.0\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.2.189.0\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\VulkanSDK\1.2.189.0\lib\shaderc_shared.lib;C:\VulkanSDK\1.2.189.0\lib\spirv-cross-core.lib;C:\VulkanSDK\1.2.189.0\lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)/$(ProjectName)/assets" "$(SolutionDir)/bin/Dist-windows-x86_64/$(ProjectName)/assets" /E /Y /I</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\NavierStokesFluid.h" />

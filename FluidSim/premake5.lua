@@ -34,52 +34,72 @@ project "FluidSim"
 		"Stengine"
 	}
 
-	filter "system:windows"
-		systemversion "latest"
-
-		defines
-		{
-			"ST_PLATFORM_WINDOWS"
-		}
+--[[ --------------------- Linux --------------------- ]]--
 
 	filter "system:linux"
-		defines
+		systemversion "latest"
+		defines { "ST_PLATFORM_LINUX" }
+
+		links
 		{
-			"ST_PLATFORM_LINUX"
+			"%{LibraryDir.VulkanSDK}/libshaderc_shared.so",
+			"%{LibraryDir.VulkanSDK}/libspirv-cross-core.a",
+			"%{LibraryDir.VulkanSDK}/libspirv-cross-glsl.a"
 		}
 		
+		postbuildcommands { "cp -r \"%{wks.location}/%{prj.name}/assets\" \"%{wks.location}/bin/" .. outputdir .. "/%{prj.name}/assets\"" }
+
+--[[ -------------------- Windows -------------------- ]]--
+
+	filter "system:windows"
+		systemversion "latest"
+		defines { "ST_PLATFORM_WINDOWS" }
+		
+		postbuildcommands { "xcopy \"%{wks.location}/%{prj.name}/assets\" \"%{wks.location}/bin/" .. outputdir .. "/%{prj.name}/assets\" /E /Y /I" }
+
+	filter { "configurations:Debug", "system:windows" }
+		links
+		{
+			"%{LibraryDir.VulkanSDK_Debug}/shaderc_sharedd.lib",
+			"%{LibraryDir.VulkanSDK_Debug}/spirv-cross-cored.lib",
+			"%{LibraryDir.VulkanSDK_Debug}/spirv-cross-glsld.lib"
+		}
+
+		postbuildcommands
+		{
+			"copy \"%{wks.location}Stengine\\vendor\\VulkanSDK\\bin\\shaderc_sharedd.dll\" \"%{wks.location}%{prj.name}\"",
+			"copy \"%{wks.location}Stengine\\vendor\\VulkanSDK\\bin\\shaderc_sharedd.dll\" \"%{wks.location}\\bin\\" .. outputdir .. "\\%{prj.name}\"",
+		}
+		
+	filter { "configurations:Release", "system:windows" }
+		links
+		{
+			"%{LibraryDir.VulkanSDK}/shaderc_shared.lib",
+			"%{LibraryDir.VulkanSDK}/spirv-cross-core.lib",
+			"%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
+		}
+
+	filter { "configurations:Dist", "system:windows" }
+		links
+		{
+			"%{LibraryDir.VulkanSDK}/shaderc_shared.lib",
+			"%{LibraryDir.VulkanSDK}/spirv-cross-core.lib",
+			"%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
+		}
+		
+--[[ ------------------ Configurations ------------------ ]]--
+
 	filter "configurations:Debug"
 		defines "ST_DEBUG"
 		runtime "Debug"
 		symbols "On"
 
-		links
-		{
-			"%{Library.ShaderC_Debug}",
-			"%{Library.SPIRV_Cross_Debug}",
-			"%{Library.SPIRV_Cross_GLSL_Debug}"
-		}
-		
 	filter "configurations:Release"
 		defines "ST_RELEASE"
 		runtime "Release"
 		optimize "On"
 
-		links
-		{
-			"%{Library.ShaderC_Release}",
-			"%{Library.SPIRV_Cross_Release}",
-			"%{Library.SPIRV_Cross_GLSL_Release}"
-		}
-
 	filter "configurations:Dist"
 		defines "ST_DIST"
 		runtime "Release"
 		optimize "On"
-
-		links
-		{
-			"%{Library.ShaderC_Release}",
-			"%{Library.SPIRV_Cross_Release}",
-			"%{Library.SPIRV_Cross_GLSL_Release}"
-		}
