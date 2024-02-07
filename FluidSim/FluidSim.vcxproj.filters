@@ -9,11 +9,13 @@
     <ClInclude Include="src\SimulationLayer.h" />
     <ClInclude Include="src\NavierStokesFluid.h" />
     <ClInclude Include="src\ParticleFluid.h" />
+    <ClInclude Include="src\VerletIntegration.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimulationLayer.cpp" />
     <ClCompile Include="src\FluidSimApp.cpp" />
     <ClCompile Include="src\NavierStokesFluid.cpp" />
     <ClCompile Include="src\ParticleFluid.cpp" />
+    <ClCompile Include="src\VerletIntegration.cpp" />
   </ItemGroup>
 </Project>

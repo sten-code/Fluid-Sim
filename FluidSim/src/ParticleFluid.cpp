@@ -53,7 +53,7 @@ glm::vec4 MapSpeedToColor(const glm::vec2& velocity, float maxSpeed)
 
 ParticleFluid::ParticleFluid()
 {
-	GenerateParticleGrid(80, 80, 10.0f);
+	GenerateParticleGrid(70, 70, 7.0f);
 }
 
 void ParticleFluid::GenerateParticleGrid(int width, int height, float spacing)
@@ -75,7 +75,6 @@ void ParticleFluid::GenerateParticleGrid(int width, int height, float spacing)
 void ParticleFluid::Step(glm::vec2 viewportOffset, glm::vec2 viewportSize, float dt)
 {
 	ST_PROFILE_FUNCTION();
-	dt *= 2.0f;
 	float staticDeltaTime = 1.0f / 120.0f;
 
 	glm::vec2 pos = Sten::Input::GetMousePosition() - viewportOffset - viewportSize / 2.0f;
@@ -110,7 +109,7 @@ void ParticleFluid::Step(glm::vec2 viewportOffset, glm::vec2 viewportSize, float
 
 	for (int i = 0; i < m_Particles.size(); i++)
 	{
-		m_Particles[i].Position += m_Particles[i].Velocity * dt;
+		m_Particles[i].Position += m_Particles[i].Velocity * staticDeltaTime;
 		if (std::abs(m_Particles[i].Position.x) > WIDTH / 2.0f)
 		{
 			m_Particles[i].Position.x = WIDTH / 2.0f * (m_Particles[i].Position.x / std::abs(m_Particles[i].Position.x));
@@ -313,7 +312,7 @@ glm::vec2 ParticleFluid::CalculateViscosityForce(int targetIndex)
 			{
 				float dst = glm::sqrt(sqrDst);
 				glm::vec2 neighbourVelocity = m_Particles[particleIndex].Velocity;
-				viscosityForce += (neighbourVelocity - m_Particles[targetIndex].Velocity) * ViscositySmoothingFunction(dst);
+				viscosityForce += (neighbourVelocity - m_Particles[targetIndex].Velocity) * SmoothingFunction(dst);
 			}
 		}
 	}

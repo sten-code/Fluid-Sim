@@ -5,6 +5,7 @@
 
 #include "NavierStokesFluid.h"
 #include "ParticleFluid.h"
+#include "VerletIntegration.h"
 
 namespace Sten
 {
@@ -28,11 +29,12 @@ namespace Sten
 		Ref<OrthographicCamera> m_Camera;
 		NavierStokesFluid m_NavierStokesFluid;
 		ParticleFluid m_ParticleFluid;
+		VerletIntegration m_VerletIntegration;
 
 		enum
 		{
-			NavierStokes, Particle
-		} m_ActiveFluid = Particle;
+			NavierStokes, Particle, Verlet
+		} m_ActiveFluid = Verlet;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };

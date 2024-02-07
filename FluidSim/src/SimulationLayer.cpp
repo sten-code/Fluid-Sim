@@ -7,14 +7,13 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui/imgui.h>
 #include <chrono>
-#include <ImGuizmo.h>
 
 namespace Sten
 {
 	SimulationLayer::SimulationLayer()
 		: Layer("SimulationLayer"), m_NavierStokesFluid(256, 256, 3, 0, 0.0000001, 1)
 	{
-		//Application::Get().GetWindow().SetVSync(true);
+		Application::Get().GetWindow().SetVSync(true);
 	}
 
 	void SimulationLayer::OnAttach()
@@ -51,7 +50,7 @@ namespace Sten
 				m_NavierStokesFluid.Resize(m_ViewportSize.x / m_NavierStokesFluid.GetScale(), m_ViewportSize.y / m_NavierStokesFluid.GetScale());
 		}
 
-		if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
+		if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
 		{
 			if (m_ActiveFluid == NavierStokes)
 			{
@@ -60,7 +59,7 @@ namespace Sten
 			}
 		}
 
-		if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
+		if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
 		{
 			if (m_ActiveFluid == NavierStokes)
 			{
@@ -76,6 +75,8 @@ namespace Sten
 			m_NavierStokesFluid.Step(ts);
 		else if (m_ActiveFluid == Particle)
 			m_ParticleFluid.Step(m_ViewportOffset, m_ViewportSize, ts);
+		else if (m_ActiveFluid == Verlet)
+			m_VerletIntegration.Step(m_ViewportOffset, m_ViewportSize, ts);
 
 		Renderer2D::ResetStats();
 		m_Framebuffer->Bind();
@@ -88,6 +89,8 @@ namespace Sten
 			m_NavierStokesFluid.Render();
 		else if (m_ActiveFluid == Particle)
 			m_ParticleFluid.Render();
+		else if (m_ActiveFluid == Verlet)
+			m_VerletIntegration.Render(m_ViewportOffset, m_ViewportSize);
 
 		Renderer2D::EndScene();
 
@@ -126,7 +129,8 @@ namespace Sten
 
 		// ------------------- ImGui -------------------
 
-		m_ParticleFluid.OnImGuiRender();
+		if (m_ActiveFluid == Particle)
+			m_ParticleFluid.OnImGuiRender();
 
 		ImGui::Begin("Statistics");
 
@@ -191,6 +195,9 @@ namespace Sten
 			break;
 		case Key::P:
 			m_ActiveFluid = Particle;
+			break;
+		case Key::V:
+			m_ActiveFluid = Verlet;
 			break;
 		}
 	}

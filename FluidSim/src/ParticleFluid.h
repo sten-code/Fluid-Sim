@@ -57,8 +57,8 @@ private:
 	std::vector<unsigned int> m_StartIndices;
 	std::vector<glm::vec2> m_PredictedPositions;
 	float m_SmoothingRadius = 11.0f;
-	float m_TargetDensity = 25.0f;
-	float m_PressureMultiplier = 100.0f;
+	float m_TargetDensity = 20.0f;
+	float m_PressureMultiplier = 200.0f;
 	float m_Gravity = -100.0f;
 	float m_CollisionDamping = 0.9f;
 	float m_ViscosityStrength = 1.0f;
