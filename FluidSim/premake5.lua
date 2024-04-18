@@ -29,9 +29,19 @@ project "FluidSim"
 		"%{IncludeDir.ImGuizmo}"
 	}
 
+  libdirs
+  {
+    "%{LibraryDir.VulkanSDK}"
+  }
+
 	links
 	{
-		"Stengine"
+		"Stengine",
+		"GLFW",
+		"Glad",
+		"ImGui",
+		"Box2D",
+		"yaml-cpp",
 	}
 
 --[[ --------------------- Linux --------------------- ]]--
@@ -40,11 +50,20 @@ project "FluidSim"
 		systemversion "latest"
 		defines { "ST_PLATFORM_LINUX" }
 
+    buildoptions { "`pkg-config --cflags gtk+-3.0`" }
+    linkoptions { "`pkg-config --libs gtk+-3.0`" }
+    
+    libdirs
+    {
+      "%{VULKAN_SDK}/lib"
+    }
+
 		links
 		{
-			"%{LibraryDir.VulkanSDK}/libshaderc_shared.so",
-			"%{LibraryDir.VulkanSDK}/libspirv-cross-core.a",
-			"%{LibraryDir.VulkanSDK}/libspirv-cross-glsl.a"
+      "gtk-3", "glib-2.0", "gobject-2.0",
+      "shaderc_combined",
+      "spirv-cross-core",
+      "spirv-cross-glsl",
 		}
 		
 		postbuildcommands { "cp -r \"%{wks.location}/%{prj.name}/assets\" \"%{wks.location}/bin/" .. outputdir .. "/%{prj.name}/assets\"" }

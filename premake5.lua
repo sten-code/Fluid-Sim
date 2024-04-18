@@ -17,7 +17,7 @@ workspace "FluidSim"
 -- The output directory based on the configurations
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-VULKAN_SDK = os.getenv("VULKAN_SDK")
+VULKAN_SDK = "/home/sten/sdks/vulkansdk/x86_64"
 
 IncludeDir = {}
 IncludeDir["GLFW"] 			= "%{wks.location}/Stengine/vendor/GLFW/include"

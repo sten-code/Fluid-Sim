@@ -13,7 +13,7 @@ namespace Sten
 	SimulationLayer::SimulationLayer()
 		: Layer("SimulationLayer"), m_NavierStokesFluid(256, 256, 3, 0, 0.0000001, 1)
 	{
-		Application::Get().GetWindow().SetVSync(true);
+		//Application::Get().GetWindow().SetVSync(true);
 	}
 
 	void SimulationLayer::OnAttach()
@@ -200,6 +200,8 @@ namespace Sten
 			m_ActiveFluid = Verlet;
 			break;
 		}
+
+    return false;
 	}
 
 	bool SimulationLayer::OnMousePressed(MouseButtonPressedEvent& e)
